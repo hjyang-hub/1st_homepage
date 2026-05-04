@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>나의 투어 가이드</title>
+  <style>
+    body {
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+      background: #f7f5f0;
+      margin: 0;
+      padding: 40px 20px;
+      color: #2c2c2c;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* 카드 스타일 */
+    .card {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card-header {
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    .card-header:hover {
+      background: #faf8f3;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+    .arrow {
+      transition: transform 0.3s;
+      font-size: 14px;
+      color: #888;
+    }
+    .card.open .arrow {
+      transform: rotate(180deg);
+    }
+    .card-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease;
+      padding: 0 24px;
+    }
+    .card.open .card-body {
+      max-height: 800px;
+      padding: 0 24px 24px 24px;
+    }
+    .card-body p {
+      line-height: 1.7;
+      color: #555;
+    }
+
+    /* 사진 스타일 */
+    .thumbnail {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 12px;
+    }
+    .thumbnail:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+    .hint {
+      font-size: 13px;
+      color: #999;
+      text-align: center;
+      margin-top: -4px;
+      margin-bottom: 12px;
+    }
+
+    /* 모달(팝업) 스타일 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 16px 16px 0 0;
+    }
+    .modal-content {
+      padding: 28px;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+    }
+    .modal-content .info-item {
+      margin: 12px 0;
+      line-height: 1.7;
+    }
+    .modal-content .label {
+      font-weight: 600;
+      color: #6b6b6b;
+      display: inline-block;
+      width: 80px;
+    }
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🌿 정선 투어 가이드</h1>
+
+    <!-- 카드 1 -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <h2 class="card-title">숙소: 파크로쉬 리조트앤웰니스</h2>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <img class="thumbnail" 
+             src="images/place1.jpg" 
+             alt="파크로쉬 리조트앤웰니스"
+             onclick="openModal('modal1')">
+        <p class="hint">📷 사진을 클릭하면 자세한 정보를 볼 수 있어요</p>
+        <p>ROCHE는 바위를 뜻하는 프랑스어. 세월의 변화와 시련을 견디며 강인해진 생명체이자 자연의 따뜻한 온기를 가득 품고 있는 바위.
+순수한 본질을 간직한 채 자연과 함께 성장하고 스스로 견고하게 완성되는 바위를 닮은 당신.
+그것이 바로 파크로쉬가 꿈꾸는 당신의 모습.</p>
+      </div>
+    </div>
+
+    <!-- 카드 2 -->
+    <div class="card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <h2 class="card-title">2. 두 번째 방문지 이름</h2>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-body">
+        <img class="thumbnail" 
+             src="images/place2.jpg" 
+             alt="두 번째 방문지"
+             onclick="openModal('modal2')">
+        <p class="hint">📷 사진을 클릭하면 자세한 정보를 볼 수 있어요</p>
+        <p>두 번째 장소 짧은 소개글을 여기 적어주세요.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 숙소: 파크로쉬 리조트앤웰니스 -->
+  <div class="modal-overlay" id="modal1" onclick="closeModalIfOverlay(event, 'modal1')">
+    <div class="modal">
+      <button class="close-btn" onclick="closeModal('modal1')">×</button>
+      <img src="images/place1.jpg" alt="첫 번째 방문지">
+      <div class="modal-content">
+        <h2>첫 번째 방문지 이름</h2>
+        <div class="info-item"><span class="label">📍 주소</span> 북평면 숙암리 482, 북평면, 정선</div>
+        <div class="info-item"><span class="label">📞 연락처</span> 044-000-0000</div>
+        <div class="info-item"><span class="label">💰 가격대</span> 1인 15,000원~</div>
+        <div class="info-item"><span class="label">⭐ 추천 포인트</span> 여기에 추천 이유를 자세히 적어주세요. 분위기, 메뉴, 특별한 점 등 방문자가 알고 싶어할 정보를 풍부하게 담아주세요.</div>
+        <div class="info-item"><span class="label">💡 팁</span> 방문 전 알아두면 좋을 팁을 적어주세요.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모달 2: 두 번째 방문지 상세 -->
+  <div class="modal-overlay" id="modal2" onclick="closeModalIfOverlay(event, 'modal2')">
+    <div class="modal">
+      <button class="close-btn" onclick="closeModal('modal2')">×</button>
+      <img src="images/place2.jpg" alt="두 번째 방문지">
+      <div class="modal-content">
+        <h2>두 번째 방문지 이름</h2>
+        <div class="info-item"><span class="label">📍 주소</span> 세종특별자치시 ○○로 ○○</div>
+        <div class="info-item"><span class="label">🕐 운영시간</span> 매일 10:00 - 22:00</div>
+        <div class="info-item"><span class="label">📞 연락처</span> 044-000-0000</div>
+        <div class="info-item"><span class="label">⭐ 추천 포인트</span> 두 번째 장소 상세 설명을 여기에 적어주세요.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 카드 펼치기/접기
+    function toggleCard(header) {
+      const card = header.parentElement;
+      card.classList.toggle('open');
+    }
+
+    // 모달 열기
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // 모달 닫기
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // 검은 배경 클릭 시 닫기
+    function closeModalIfOverlay(event, id) {
+      if (event.target.classList.contains('modal-overlay')) {
+        closeModal(id);
+      }
+    }
+
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(m => {
+          m.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+
+</body>
+</html>
